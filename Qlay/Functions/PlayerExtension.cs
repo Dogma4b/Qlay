@@ -13,29 +13,23 @@ namespace Qlay.Functions
     {
         public List<Smod2.API.Player> GetAll()
         {
-            try
-            {
-                return SmodPlayer.GetPlayers();
-            }
-            catch (Exception ex)
-            {
-                ServerConsole.AddLog(ex.Message);
-            }
-
-            return null;
+            return SmodPlayer.GetPlayers();
         }
 
         public List<Smod2.API.Player> GetByName(string name)
         {
-            try
-            {
-                return SmodPlayer.GetPlayers(name);
-            }
-            catch (Exception ex)
-            {
-                ServerConsole.AddLog(ex.Message);
-            }
+            return SmodPlayer.GetPlayers(name);
+        }
 
+        public Smod2.API.Player GetById(int id)
+        {
+            foreach(Smod2.API.Player player in SmodPlayer.GetPlayers())
+            {
+                if (((GameObject)player.GetGameObject()).GetComponent<RemoteAdmin.QueryProcessor>().PlayerId == id)
+                {
+                    return player;
+                }
+            }
             return null;
         }
 
