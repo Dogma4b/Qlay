@@ -159,7 +159,16 @@ namespace Qlay
 
         public void OnPlayerDie(PlayerDeathEvent ev)
         {
-            plugin.luaHookCall.Function.Call("OnPlayerDie", ev.Player, ev.Killer, ev.SpawnRagdoll, ev.DamageTypeVar);
+            var args = plugin.luaHookCall.Function.Call("OnPlayerDie", ev.Player, ev.Killer, ev.SpawnRagdoll, ev.DamageTypeVar);
+            if (args.Type == DataType.Table)
+            {
+                var table = args.Table;
+
+                var SpawnRagdoll = table.Get("SpawnRagdoll");
+                if (SpawnRagdoll.IsNotNil()) ev.SpawnRagdoll = SpawnRagdoll.Boolean;
+                var DamageType = table.Get("DamageType");
+                if (DamageType.IsNotNil()) ev.DamageTypeVar = DamageType.ToObject<DamageType>();
+            }
         }
 
         public void OnPlayerPickupItem(PlayerPickupItemEvent ev)
