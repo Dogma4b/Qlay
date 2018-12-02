@@ -55,14 +55,17 @@ namespace Qlay.Functions
 
     public static class PlayerExtension
     {
-        public static void SetPermission(this Smod2.API.Player self, double permission, bool isStaff = false)
+        public static void SetPermission(this Smod2.API.Player self, string color, string badge, double permission, bool cover, bool hidden, bool isStaff = false)
         {
             GameObject player = (GameObject)self.GetGameObject();
             ServerRoles ComponentRole = player.GetComponent<ServerRoles>();
-            ComponentRole.Permissions = (UInt64) permission;
-            ComponentRole.RemoteAdmin = true;
-            //ComponentRole.RemoteAdminMode = ServerRoles.AccessMode.GlobalAccess;
-            ComponentRole.CallTargetOpenRemoteAdmin(ComponentRole.connectionToClient);
+            UserGroup group = new UserGroup();
+            group.BadgeColor = color;
+            group.BadgeText = badge;
+            group.Permissions = (ulong)permission;
+            group.Cover = cover;
+            group.HiddenByDefault = hidden;
+            ComponentRole.SetGroup(group, false, false, false);
             if (isStaff)
             {
                 ComponentRole.Staff = true;
