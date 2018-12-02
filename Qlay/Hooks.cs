@@ -18,6 +18,7 @@ namespace Qlay
         IEventHandlerAdminQuery, IEventHandlerAuthCheck, IEventHandlerBan,
     {
         private Qlay plugin;
+        private bool IsServerLoaded = false;
 
         public Hooks(Plugin plugin)
         {
@@ -51,6 +52,8 @@ namespace Qlay
 
         public void OnDisconnect(DisconnectEvent ev)
         {
+            if (!IsServerLoaded) return;
+
             foreach (Player player in ServerMod2.API.SmodPlayer.GetPlayers())
             {
                 if (player.IpAddress == ev.Connection.IpAddress)
@@ -62,6 +65,9 @@ namespace Qlay
 
         public void OnWaitingForPlayers(WaitingForPlayersEvent ev)
         {
+            if (!IsServerLoaded)
+                IsServerLoaded = true;
+
             plugin.luaHookCall.Function.Call("OnWaitingForPlayers", ev.Server);
         }
 
@@ -84,7 +90,8 @@ namespace Qlay
 
         public void OnPlayerJoin(PlayerJoinEvent ev)
         {
-            plugin.luaHookCall.Function.Call("OnPlayerJoin", ev.Player);
+            if (IsServerLoaded)
+                plugin.luaHookCall.Function.Call("OnPlayerJoin", ev.Player);
         }
 
         public void OnSpawn(PlayerSpawnEvent ev)
