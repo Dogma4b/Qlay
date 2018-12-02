@@ -51,6 +51,12 @@ namespace Qlay
 
         public void OnDisconnect(DisconnectEvent ev)
         {
+            foreach (Player player in ServerMod2.API.SmodPlayer.GetPlayers())
+            {
+                if (player.IpAddress == ev.Connection.IpAddress)
+                    plugin.luaHookCall.Function.Call("OnPlayerLeave", player);
+            }
+
             plugin.luaHookCall.Function.Call("OnDisconnect", ev.Connection);
         }
 
