@@ -164,9 +164,9 @@ namespace Qlay
             {
                 var table = args.Table;
 
-                var Damage = table.Get("Items");
+                var Damage = table.Get("Damage");
                 if (Damage.IsNotNil()) ev.Damage = (float)Damage.Number;
-                var DamageType = table.Get("Items");
+                var DamageType = table.Get("DamageType");
                 if (DamageType.IsNotNil()) ev.DamageType = DamageType.ToObject<DamageType>();
             }
         }
