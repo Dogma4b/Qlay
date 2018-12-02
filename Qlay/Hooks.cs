@@ -15,6 +15,7 @@ namespace Qlay
         IEventHandlerPlayerJoin, IEventHandlerSpawn, IEventHandlerTeamRespawn, IEventHandlerSpawnRagdoll, IEventHandlerCheckEscape, IEventHandlerSetRole, IEventHandlerPlayerHurt, IEventHandlerPlayerDie, IEventHandlerPlayerPickupItem, IEventHandlerPlayerPickupItemLate, IEventHandlerPlayerDropItem, IEventHandlerMedkitUse, IEventHandlerLure, IEventHandlerRadioSwitch, IEventHandlerShoot, IEventHandlerThrowGrenade,
         IEventHandler106CreatePortal, IEventHandler106Teleport, IEventHandlerContain106, IEventHandlerPocketDimensionEnter, IEventHandlerPocketDimensionExit, IEventHandlerPocketDimensionDie,
         IEventHandlerIntercom, IEventHandlerWarheadStartCountdown, IEventHandlerWarheadStopCountdown, IEventHandlerWarheadDetonate, IEventHandlerLCZDecontaminate
+        IEventHandlerAdminQuery, IEventHandlerAuthCheck, IEventHandlerBan,
     {
         private Qlay plugin;
 
@@ -264,6 +265,38 @@ namespace Qlay
         public void OnDecontaminate()
         {
             plugin.luaHookCall.Function.Call("OnDecontaminate");
+        }
+
+        public void OnAdminQuery(AdminQueryEvent ev)
+        {
+            plugin.luaHookCall.Function.Call("OnAdminQuery", ev.Admin, ev.Query, ev.Output, ev.Handled, ev.Successful);
+        }
+
+        public void OnAuthCheck(AuthCheckEvent ev)
+        {
+            plugin.luaHookCall.Function.Call("OnAuthCheck", ev.Requester, ev.AuthType, ev.Allow, ev.DeniedMessage);
+        }
+
+        public void OnBan(BanEvent ev)
+        {
+            var args = plugin.luaHookCall.Function.Call("OnBan", ev.Player, ev.Admin, ev.Duration, ev.Reason, ev.AllowBan, ev.Result);
+            if (args.Type == DataType.Table)
+            {
+                var table = args.Table;
+
+                var Player = table.Get("Player");
+                if (Player.IsNotNil()) ev.Player = Player.ToObject<Player>();
+                var Admin = table.Get("Admin");
+                if (Admin.IsNotNil()) ev.Admin = Admin.ToObject<Player>();
+                var Duration = table.Get("Duration");
+                if (Duration.IsNotNil()) ev.Duration = (int)Duration.Number;
+                var Reason = table.Get("Reason");
+                if (Reason.IsNotNil()) ev.Reason = Reason.String;
+                var AllowBan = table.Get("AllowBan");
+                if (AllowBan.IsNotNil()) ev.AllowBan = AllowBan.Boolean;
+                var Result = table.Get("Result");
+                if (Result.IsNotNil()) ev.Result = Result.String;
+            }
         }
     }
 }

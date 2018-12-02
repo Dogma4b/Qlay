@@ -208,6 +208,9 @@ namespace Qlay
             this.AddEventHandler(typeof(IEventHandlerWarheadStopCountdown), hooks, Priority.Highest);
             this.AddEventHandler(typeof(IEventHandlerWarheadDetonate), hooks, Priority.Highest);
             this.AddEventHandler(typeof(IEventHandlerLCZDecontaminate), hooks, Priority.Highest);
+            this.AddEventHandler(typeof(IEventHandlerAdminQuery), hooks, Priority.Highest);
+            this.AddEventHandler(typeof(IEventHandlerAuthCheck), hooks, Priority.Highest);
+            this.AddEventHandler(typeof(IEventHandlerBan), hooks, Priority.Highest);
             this.AddEventHandler(typeof(IEventHandlerSCP914Activate), scp914, Priority.Highest);
 #endif
             try
