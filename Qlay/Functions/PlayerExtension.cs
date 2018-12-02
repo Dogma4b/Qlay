@@ -84,6 +84,12 @@ namespace Qlay.Functions
             player.GetComponent<ServerRoles>().CmdSetOverwatchStatus(overwatch);
         }
 
+        public static int GetMaxHP(this Smod2.API.Player self, int maxhp)
+        {
+            GameObject player = (GameObject)self.GetGameObject();
+            return player.GetComponent<PlayerStats>().maxHP;
+        }
+
         [MoonSharpUserDataMetamethod("__index")]
         public static void __index(this Smod2.API.Player self, DynValue k)
         {
