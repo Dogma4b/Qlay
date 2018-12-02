@@ -101,9 +101,10 @@ namespace Qlay.Modules
                     q.Info(e.StackTrace);
                 }
 
-                loopsRemaining--;
+                if (loopsRemaining != -1)
+                    loopsRemaining--;
 
-                if (loopsRemaining > 0)
+                if (loopsRemaining > 0 || loopsRemaining == -1)
                 {
                     var now = Time.realtimeSinceStartup; //
                     nextInvokeTime = now + ((float)Delay) / 1000; // now + TimeSpan.FromMilliseconds(Delay); 
