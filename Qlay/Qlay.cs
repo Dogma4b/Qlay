@@ -256,18 +256,17 @@ namespace Qlay
                 lua.Globals["warhead"] = new Functions.Warhead();
                 lua.Globals["scp914"] = scp914;
 
-
-                var con = new Table(lua);
-                con["SetString"] = new Action<string,string>((key,def) => {
-                    if(def != null)
-                        AddConfig(new Smod2.Config.ConfigSetting(key, def, Smod2.Config.SettingType.STRING, true, "qlay-variable"));
-                    else
-                        AddConfig(new Smod2.Config.ConfigSetting(key, "default", Smod2.Config.SettingType.STRING, true, "qlay-variable"));
+                List<string> cvars = new List<string>();
+                Table con = new Table(lua);
+                con["RegString"] = new Action<string,string>((key,def) => {
+                    if (cvars.Contains(key)) return;
+                        AddConfig(new Smod2.Config.ConfigSetting(key, (def != null) ? def : "default", Smod2.Config.SettingType.STRING, true, "qlay-variable"));
+                        cvars.Add(key);
                 });
                 con["GetString"] = CallbackFunction.FromDelegate(lua, new Func<string, string>(GetConfigString));
                 con["GetNumber"] = CallbackFunction.FromDelegate(lua, new Func<string, float>(GetConfigFloat));
                 con["GetBool"] = CallbackFunction.FromDelegate(lua, new Func<string, bool>(GetConfigBool));
-                lua.Globals["con"] = con;
+                lua.Globals["ConVar"] = con;
                
 
 
