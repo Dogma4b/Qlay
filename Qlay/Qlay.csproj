@@ -73,6 +73,13 @@
     <Compile Include="Functions\Warhead.cs" />
     <Compile Include="Hooks.cs" />
     <Compile Include="Modules\File.cs" />
+    <Compile Include="Modules\LuaSocket\AddonMemory.cs" />
+    <Compile Include="Modules\PolyFill\ConcurrentQueue.cs" />
+    <Compile Include="Modules\LuaSocket\LuaWrapper.cs" />
+    <Compile Include="Modules\PolyFill\ObjectPool.cs" />
+    <Compile Include="Modules\LuaSocket\qConnection.cs" />
+    <Compile Include="Modules\LuaSocket\qLuaPacket.cs" />
+    <Compile Include="Modules\LuaSocket\qStream.cs" />
     <Compile Include="Modules\MySQL.cs" />
     <Compile Include="Modules\StaticLua.cs" />
     <Compile Include="Qlay.cs" />

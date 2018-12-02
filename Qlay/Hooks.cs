@@ -65,6 +65,7 @@ namespace Qlay
 
         public void OnUpdate(UpdateEvent ev)
         {
+            Modules.LuaSocket.SocketConnections.UpdateConnectionsReceive();
             Timer.MainThreadCheck(plugin);
             plugin.luaHookCall.Function.Call("OnUpdate");
         }

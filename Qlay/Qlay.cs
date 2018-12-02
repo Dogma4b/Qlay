@@ -149,6 +149,9 @@ namespace Qlay
             UserData.RegisterType<Modules.MySQL>();
             UserData.RegisterType<Modules.MySQLConnection>();
             UserData.RegisterType<Modules.MySQLQuery>();
+            UserData.RegisterType<Modules.LuaSocket.LuaWrapper>();
+            UserData.RegisterType<Modules.LuaSocket.qLuaPacket>();
+            UserData.RegisterType<Modules.LuaSocket.qConnection>();
             UserData.RegisterType<Role>();
             UserData.RegisterType<Team>();
             UserData.RegisterType<UserRank>();
@@ -230,6 +233,7 @@ namespace Qlay
                 lua.Globals["timer"] =  Modules.Timer.singleton;
                // lua.Globals["hook"] = hooks;
                 lua.Globals["mysql"] = new Modules.MySQL(this);
+                lua.Globals["socket"] = new Modules.LuaSocket.LuaWrapper(this);
                 Dictionary<string, object> StaticResource = new Dictionary<string, object>();
                 StaticResource.Add("Role", UserData.CreateStatic<Role>());
                 StaticResource.Add("Item", UserData.CreateStatic<ItemType>());
